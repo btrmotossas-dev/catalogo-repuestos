@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catálogo de Repuestos | BTR Motos</title>
+<link rel="icon" type="image/jpeg" href="BTR_LOGO.jpg">
+<style>
+:root{--bg:#060E1F;--bg2:#0B1936;--bg3:#13274E;--surf:#15284A;--line:#2C4A78;--b1:#2563EB;--b2:#3B82F6;--cy:#38BDF8;--w:#F8FAFC;--mut:#94A9CC}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{background:radial-gradient(circle at 20% 0,#0B1936,#060E1F 60%) fixed;color:var(--w);min-height:100vh}
+button{cursor:pointer;font:inherit;color:inherit}
+header{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,#13274Eee,#0B1936f2);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);box-shadow:0 6px 18px #0008}
+.wrap{max-width:1200px;margin:0 auto;padding:0 14px}
+.top{display:flex;gap:12px;align-items:center;padding:10px 0;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;flex:1;min-width:210px}
+.brand img{width:56px;height:56px;border-radius:50%;border:2px solid var(--b2);box-shadow:0 0 14px #2563EB88;object-fit:cover}
+.brand h1{font-size:18px;line-height:1.1}.brand small{color:var(--cy);font-size:12px}
+.search{position:relative;flex:2;min-width:220px}
+.search input,select{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--line);background:#060E1Fcc;color:var(--w);font-size:14px;outline:none}
+.search input:focus,select:focus{border-color:var(--cy);box-shadow:0 0 0 3px #38BDF833}
+.btn{background:var(--surf);border:1px solid var(--line);padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;transition:.15s}
+.btn:hover{border-color:var(--cy)}
+.btn.main{background:linear-gradient(135deg,var(--b1),var(--b2));border-color:var(--b2)}
+.row2{display:flex;gap:10px;align-items:center;padding-bottom:10px;flex-wrap:wrap}
+.row2 select{flex:1;min-width:150px;width:auto}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;scrollbar-width:thin}
+.tab{flex-shrink:0;padding:8px 18px;border-radius:20px;border:1px solid var(--line);background:#0B193699;font-weight:700;font-size:13px}
+.tab:hover{border-color:var(--cy)}
+.tab.on{background:var(--b1);border-color:var(--w);box-shadow:0 0 12px #3B82F688}
+.count{color:var(--mut);font-size:13px;padding:12px 2px 4px}
+.car{position:relative;margin:14px 0;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+.trk{display:flex;transition:transform .5s}
+.sl{min-width:100%;min-height:150px;padding:30px 24px 38px;display:flex;flex-direction:column;justify-content:center;gap:6px;background:linear-gradient(120deg,#0B1936,#2563EB 130%)}
+.sl.img{padding:0}.sl img{width:100%;display:block}
+.sl h2{font-size:clamp(20px,4vw,34px)}.sl p{color:#cfe3ff}
+.cb{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:none;background:#000a;color:#fff;font-size:16px}
+.cb:hover{background:var(--b1)}.pv{left:10px}.nx{right:10px}
+.dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+.dots i{width:8px;height:8px;border-radius:9px;background:#fff6;cursor:pointer}.dots i.on{width:22px;background:var(--cy)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding-bottom:40px}
+@media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1000px){.grid{grid-template-columns:repeat(5,1fr);gap:16px}}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:.18s}
+.card:hover{border-color:var(--cy);transform:translateY(-3px);box-shadow:0 8px 20px #2563EB44}
+.ch{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:#060E1F;font-size:11px;font-weight:700;gap:6px}
+.tag{background:var(--b1);padding:2px 7px;border-radius:5px;font-size:9px;font-weight:600}
+.im{aspect-ratio:1;background:#fff;display:flex;align-items:center;justify-content:center;position:relative}
+.im img{width:100%;height:100%;object-fit:contain;padding:6px}
+.noimg{color:#7a8ba8;font-size:11px;text-transform:uppercase;text-align:center;font-weight:600}
+.noimg b{display:block;font-size:26px;opacity:.5}
+.loc{position:absolute;left:6px;bottom:6px;background:#0B1936dd;color:var(--cy);font-size:9px;padding:2px 7px;border-radius:5px}
+.cd{padding:10px;font-size:12px;color:#cfdcf2;line-height:1.35;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cf{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-top:1px solid var(--line);background:#0B1936}
+.pr{font-weight:800;color:var(--cy);font-size:14px}
+.add{background:var(--b1);border:none;border-radius:8px;width:30px;height:30px;font-size:18px;font-weight:700}
+.add:hover{background:var(--b2)}
+.ov{position:fixed;inset:0;background:#000b;z-index:50;display:none;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(3px)}
+.ov.show{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--line);border-radius:14px;width:100%;max-width:440px;max-height:92vh;overflow:auto}
+.mi{position:relative;background:#fff;height:280px;display:flex;align-items:center;justify-content:center}
+.mi img{max-width:100%;max-height:100%;object-fit:contain}
+.mb{padding:16px;display:flex;flex-direction:column;gap:10px}
+.mb h3{font-size:20px}.mb p{color:#cfdcf2;font-size:14px;line-height:1.5}
+.meta{display:flex;gap:6px;flex-wrap:wrap}.meta span{background:var(--surf);border:1px solid var(--line);padding:3px 9px;border-radius:6px;font-size:12px}
+.mf{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-top:1px solid var(--line)}
+.mf .pr{font-size:22px}
+.x{float:right;margin:10px;background:#0008;border:none;width:30px;height:30px;border-radius:50%;color:#fff}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(400px,100%);background:var(--bg2);border-left:1px solid var(--line);z-index:60;transform:translateX(100%);transition:.3s;display:flex;flex-direction:column}
+.drawer.show{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);font-weight:800}
+.items{flex:1;overflow:auto;padding:10px 14px}
+.it{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #2C4A7866;font-size:13px}
+.it div:first-child{flex:1}.it small{color:var(--mut)}
+.q{display:flex;align-items:center;gap:6px}.q button{width:26px;height:26px;border-radius:6px;border:1px solid var(--line);background:var(--surf)}
+.df{padding:14px 16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.tot{display:flex;justify-content:space-between;font-size:18px;font-weight:800}
+.wa{background:#16a34a;border:none;padding:13px;border-radius:10px;font-weight:800;font-size:15px}
+.fab{position:fixed;right:16px;bottom:16px;z-index:40;background:linear-gradient(135deg,var(--b1),var(--b2));border:1px solid var(--w);border-radius:30px;padding:12px 18px;font-weight:800;box-shadow:0 6px 20px #2563EB99}
+.st{position:absolute;right:6px;top:6px;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:800;z-index:2}
+.st.out{background:#dc2626;color:#fff}.st.low{background:#f59e0b;color:#111}
+.card.sold .im img,.card.sold .noimg{filter:grayscale(1);opacity:.4}.card.sold .pr{color:#7a8ba8;text-decoration:line-through}
+.add:disabled{background:#334155;cursor:not-allowed;opacity:.6}
+.wab{background:#16a34a;border-color:#22c55e;text-decoration:none;color:#fff;display:inline-block}
+.empty{text-align:center;color:var(--mut);padding:40px 0;grid-column:1/-1}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--b1);padding:9px 18px;border-radius:20px;font-size:13px;z-index:70;opacity:0;transition:.3s;pointer-events:none}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="top">
+    <div class="brand"><img src="BTR_LOGO.jpg" alt="BTR Motos"><div><h1 id="ttl">Catálogo de Repuestos</h1><small id="sub">BTR MOTOS · Since 2024</small></div></div>
+    <div class="search"><input id="q" placeholder="Buscar por código, marca, categoría o descripción..." oninput="ref()"></div>
+    <a class="btn wab" id="wab" target="_blank" rel="noopener">💬 WhatsApp</a>
+    <button class="btn" onclick="cargar(true);extras()">⟳ Actualizar</button>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div class="row2"><select id="mar" onchange="ref()"></select><select id="cat" onchange="ref()"></select><select id="ubi" onchange="ref()"></select></div>
+</div></header>
+
+<main class="wrap">
+  <div class="car" id="car"><div class="trk" id="trk"></div><button class="cb pv" onclick="mover(-1)">‹</button><button class="cb nx" onclick="mover(1)">›</button><div class="dots" id="dots"></div></div>
+  <p class="count" id="count">Cargando...</p>
+  <div class="grid" id="grid"></div>
+  <div style="text-align:center;padding-bottom:50px"><button class="btn main" id="more" onclick="lim+=60;render()" style="display:none"></button></div>
+</main>
+
+<div class="ov" id="ov" onclick="cerrar()"><div class="modal" onclick="event.stopPropagation()" id="modal"></div></div>
+<aside class="drawer" id="drawer">
+  <div class="dh"><span>🛒 Mi pedido</span><button class="btn" onclick="carrito(false)">Cerrar</button></div>
+  <div class="items" id="items"></div>
+  <div class="df"><div class="tot"><span>Total</span><span id="total"></span></div><button class="wa" onclick="enviar()">Enviar pedido por WhatsApp</button><button class="btn" onclick="vaciar()">Vaciar</button></div>
+</aside>
+<button class="fab" id="fab" onclick="carrito(true)">🛒 Pedido (<span id="nq">0</span>)</button>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ CONFIGURACIÓN (lo único que debes editar) ============ */
+const CONFIG = {
+  /* Pega aquí los 3 enlaces CSV de tu Google Sheet (pestañas Productos, Banners y Config).
+     Si los dejas vacíos, se usan los datos de ejemplo. */
+  fuente: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTUQsNi3_ylgoh7og0CNZrsd_j9V1SGqNfOCXOhW99w12mnKcCR1aHVhFJY3dMadfb-iDSJ3gdBehm4/pub?gid=1688574138&single=true&output=csv",           // enlace CSV de la pestaña PRODUCTOS
+  fuenteBanners: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTUQsNi3_ylgoh7og0CNZrsd_j9V1SGqNfOCXOhW99w12mnKcCR1aHVhFJY3dMadfb-iDSJ3gdBehm4/pub?gid=2063104290&single=true&output=csv",                 // enlace CSV de la pestaña BANNERS
+  fuenteConfig: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTUQsNi3_ylgoh7og0CNZrsd_j9V1SGqNfOCXOhW99w12mnKcCR1aHVhFJY3dMadfb-iDSJ3gdBehm4/pub?gid=1890168127&single=true&output=csv",                  // enlace CSV de la pestaña CONFIG (textos y WhatsApp)
+  whatsapp: "573014379520",
+  stockbajo: 1,                      // avisa "¡Últimas!" cuando quedan N o menos (cámbialo en Config)
+  agotados: "mostrar",               // "mostrar" = se ven como AGOTADO | "ocultar" = desaparecen (cámbialo en Config)          // se puede cambiar desde la pestaña CONFIG
+  titulo: "Catálogo de Repuestos",   // se puede cambiar desde la pestaña CONFIG
+  subtitulo: "BTR MOTOS · Since 2024",
+  banners: [                          // texto o imagen (url). Agrega todos los que quieras
+    {titulo:"Repuestos originales y alternativos", texto:"Todo para tu moto en un solo lugar"},
+    {titulo:"Pedidos por WhatsApp", texto:"Agrega al pedido y envíalo en un clic"},
+    // {imagen:"banner1.jpg"},
+  ]
+};
+/* Datos de ejemplo: se usan si no existe catalogo.json */
+const EJEMPLO = [
+ {codigo:"BJ-001",marca:"Bajaj",descripcion:"Kit de arrastre Pulsar NS 200 (piñón, cadena y catalina)",precio:98000,ubicacion:"Bodega Principal",imagen:""},
+ {codigo:"BJ-014",marca:"Bajaj",descripcion:"Pastillas de freno delanteras Boxer CT 100",precio:18500,ubicacion:"Bodega Principal",imagen:""},
+ {codigo:"BJ-022",marca:"Bajaj",descripcion:"Bujía NGK CPR8EA-9 Pulsar 180/200",precio:14000,ubicacion:"Sucursal 2",imagen:""},
+ {codigo:"BJ-035",marca:"Bajaj",descripcion:"Filtro de aire Discover 125",precio:21000,ubicacion:"Sucursal 2",imagen:""},
+ {codigo:"CS-101",marca:"Casarella",descripcion:"Kit de embrague completo AKT 125",precio:67000,ubicacion:"Bodega Principal",imagen:""},
+ {codigo:"CS-118",marca:"Casarella",descripcion:"Guaya de acelerador universal 90 cm",precio:7500,ubicacion:"Sucursal 2",imagen:""},
+ {codigo:"CS-125",marca:"Casarella",descripcion:"Retrovisor derecho tipo original rosca 10 mm",precio:16000,ubicacion:"Bodega Principal",imagen:""},
+ {codigo:"HK-210",marca:"Harkes",descripcion:"Cadena de transmisión 428H x 118 eslabones reforzada",precio:42000,ubicacion:"Bodega Principal",imagen:""},
+ {codigo:"HK-215",marca:"Harkes",descripcion:"Amortiguador trasero gas 320 mm universal",precio:135000,ubicacion:"Sucursal 2",imagen:""},
+ {codigo:"LL-301",marca:"Llantas",descripcion:"Llanta 90/90-18 trasera calle tubeless",precio:148000,ubicacion:"Bodega Principal",imagen:""},
+ {codigo:"LL-305",marca:"Llantas",descripcion:"Llanta 80/100-17 delantera",precio:119000,ubicacion:"Sucursal 2",imagen:""},
+ {codigo:"LB-401",marca:"Lubricantes",descripcion:"Aceite 20W-50 mineral 1 L",precio:29000,ubicacion:"Bodega Principal",imagen:""},
+ {codigo:"LB-402",marca:"Lubricantes",descripcion:"Aceite 10W-40 sintético 1 L",precio:46000,ubicacion:"Sucursal 2",imagen:""},
+ {codigo:"BJ-040",marca:"Bajaj",descripcion:"Bombillo LED faro delantero H4 12V",precio:35000,ubicacion:"Sucursal 2",imagen:""},
+ {codigo:"HK-220",marca:"Harkes",descripcion:"Manubrio aluminio 7/8 con barra de refuerzo",precio:58000,ubicacion:"Bodega Principal",imagen:""}
+];
+
+let datos=[], tab="", lim=60, multi=false, cart={}, slide=0, timer;
+try{cart=JSON.parse(localStorage.getItem("btr_cart")||"{}")}catch(e){}
+const $=id=>document.getElementById(id);
+const fmt=n=>new Intl.NumberFormat("es-CO",{style:"currency",currency:"COP",maximumFractionDigits:0}).format(n||0);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const key=p=>p.codigo+"|"+p.ubicacion;
+const agot=p=>p.stock!==null&&p.stock<=0;
+const poco=p=>p.stock!==null&&p.stock>0&&p.stock<=Number(CONFIG.stockbajo);
+const estado=p=>agot(p)?'<span class="st out">AGOTADO</span>':poco(p)?`<span class="st low">${p.stock===1?"¡Última unidad!":"¡Últimas "+p.stock+"!"}</span>`:"";
+const norm=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+
+function csv(t){const r=[];let f="",row=[],q=false;for(let i=0;i<t.length;i++){const c=t[i];
+ if(q){if(c=='"'&&t[i+1]=='"'){f+='"';i++}else if(c=='"')q=false;else f+=c}
+ else if(c=='"')q=true;else if(c==","){row.push(f);f=""}
+ else if(c=="\n"){row.push(f);r.push(row);row=[];f=""}else if(c!="\r")f+=c}
+ row.push(f);r.push(row);const h=r.shift().map(x=>norm(x).trim());
+ return r.filter(x=>x.length>1).map(x=>Object.fromEntries(h.map((k,i)=>[k,(x[i]||"").trim()])))}
+
+async function leer(url){
+  let r=null;
+  try{r=await fetch(url+(url.includes("?")?"&":"?")+"_t="+Date.now())}catch(e){r=null}
+  if(!r||!r.ok){try{r=await fetch(url)}catch(e){throw new Error("no hay conexión con Google (Failed to fetch)")}}
+  if(!r.ok)throw new Error("Google respondió con el código "+r.status);
+  const t=await r.text();
+  if(/^\s*<(!doctype|html)/i.test(t))throw new Error("Google devolvió una página web y no el archivo CSV");
+  try{return JSON.parse(t)}catch(e){return csv(t)}}
+/* Convierte un enlace normal de Google Drive en una imagen que sí se puede mostrar */
+function drive(u){u=(u||"").trim();const m=u.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?.*?id=)([\w-]+)/);return m?"https://lh3.googleusercontent.com/d/"+m[1]:u}
+async function extras(){
+  if(CONFIG.fuenteConfig){try{(await leer(CONFIG.fuenteConfig)).forEach(r=>{if(r.clave&&r.valor)CONFIG[norm(r.clave).trim()]=r.valor})}catch(e){}}
+  if(CONFIG.fuenteBanners){try{const l=(await leer(CONFIG.fuenteBanners)).filter(x=>x.imagen||x.titulo).map(x=>({titulo:x.titulo,texto:x.texto,imagen:drive(x.imagen)}));if(l.length)CONFIG.banners=l}catch(e){}}
+  $("ttl").textContent=CONFIG.titulo;$("sub").textContent=CONFIG.subtitulo;document.title=CONFIG.titulo+" | BTR Motos";$("wab").href="https://wa.me/"+String(CONFIG.whatsapp).replace(/\D/g,"")+"?text="+encodeURIComponent("Hola BTR Motos, quisiera consultar un repuesto");banners()}
+/* Lee números como "39.000", "39,000" o "39000" (Google Sheets en español usa punto de miles) */
+function num(v){v=String(v==null?"":v).replace(/[^\d.,]/g,"");if(!v)return 0;
+  if(/^\d{1,3}([.,]\d{3})+$/.test(v))return Number(v.replace(/[.,]/g,""));
+  return Number(v.replace(",","."))||0}
+function limpiar(l){return l.filter(p=>!/^(no|0|false|oculto)$/i.test(String(p.activo||"").trim())).map(p=>({codigo:p.codigo||"",pestana:p.pestana||p.marca||"General",categoria:p.categoria||"",stock:(()=>{const v=String(p.stock??"").trim();if(v==="")return null;const n=num(v);return isNaN(n)?null:n})(),marca:p.marca||"Otros",descripcion:p.descripcion||"",
+ precio:num(p.precio),ubicacion:p.ubicacion||"Bodega Principal",imagen:drive(p.imagen)})).filter(p=>p.codigo)}
+
+async function cargar(manual){
+  try{
+    const j=await leer(CONFIG.fuente);
+    datos=limpiar(Array.isArray(j)?j:(j.productos||[]));
+    if(manual)aviso("Catálogo actualizado");
+  }catch(e){
+    if(CONFIG.fuente==="catalogo.json")datos=limpiar(EJEMPLO);   /* solo si aún no conectaste tu hoja */
+    else{if(manual)aviso("No se pudo actualizar");
+      if(!datos.length){$("grid").innerHTML=`<div class="empty">No se pudo cargar el catálogo. Revisa tu conexión y pulsa Actualizar.<br><small>Detalle técnico: ${esc(e&&e.message||e)}</small></div>`;$("count").textContent="";return}}
+  }
+  if(!datos.some(p=>p.pestana===tab))tab=datos[0]?datos[0].pestana:"";
+  render();pintar();
+}
+
+function ref(){lim=60;render()}
+function setTab(t){tab=t;$("mar").value="";$("cat").value="";lim=60;render()}
+function opciones(id,txt,vals){const e=$(id),v=e.value;e.innerHTML=`<option value="">${txt}</option>`+vals.map(x=>`<option>${esc(x)}</option>`).join("");e.value=vals.includes(v)?v:"";e.style.display=vals.length>1?"":"none"}
+function render(){
+  const tabs=[...new Set(datos.map(p=>p.pestana))];
+  $("tabs").innerHTML=tabs.map(m=>`<button class="tab ${m===tab?"on":""}" onclick="setTab(this.dataset.m)" data-m="${esc(m)}">${esc(m)}</button>`).join("");
+  $("tabs").style.display=tabs.length>1?"":"none";
+  const ubs=[...new Set(datos.map(p=>p.ubicacion))].sort();multi=ubs.length>1;
+  const enTab=datos.filter(p=>p.pestana===tab);
+  opciones("mar","🏷️ Todas las marcas",[...new Set(enTab.map(p=>p.marca))].sort());
+  opciones("cat","📂 Todas las categorías",[...new Set(enTab.map(p=>p.categoria).filter(Boolean))].sort());
+  opciones("ubi","📍 Todas las ubicaciones",ubs);
+  const w=norm($("q").value).split(/\s+/).filter(Boolean),ma=$("mar").value,ca=$("cat").value,u=$("ubi").value;
+  const lista=(w.length?datos:enTab).filter(p=>!(String(CONFIG.agotados).toLowerCase()==="ocultar"&&agot(p))&&(!ma||p.marca===ma)&&(!ca||p.categoria===ca)&&(!u||p.ubicacion===u)&&
+    w.every(x=>norm([p.codigo,p.marca,p.categoria,p.descripcion,p.ubicacion].join(" ")).includes(x))).sort((a,b)=>agot(a)-agot(b));
+  $("count").textContent=`${lista.length} producto${lista.length==1?"":"s"} · ${w.length?"en todo el catálogo":tab}`;
+  $("grid").innerHTML=lista.length?lista.slice(0,lim).map(p=>`<div class="card${agot(p)?" sold":""}" onclick="abrir('${esc(key(p))}')">
+    <div class="ch"><span>${esc(p.codigo)}</span><span class="tag">${esc(p.marca)}</span></div>
+    <div class="im">${imagen(p)}${estado(p)}${multi?`<span class="loc">📍 ${esc(p.ubicacion)}</span>`:""}</div>
+    <div class="cd">${esc(p.descripcion)}</div>
+    <div class="cf"><span class="pr">${fmt(p.precio)}</span><button class="add" ${agot(p)?"disabled":""} onclick="event.stopPropagation();agregar('${esc(key(p))}')">+</button></div></div>`).join("")
+    :'<div class="empty">No se encontraron productos con esos filtros</div>';
+  const mb=$("more");mb.style.display=lista.length>lim?"":"none";mb.textContent=`Ver más productos (${lista.length-lim} restantes)`;
+}
+function imagen(p){const u=p.imagen||("fotos/"+encodeURIComponent(p.codigo)+".jpg");return `<img src="${esc(u)}" alt="${esc(p.codigo)}" loading="lazy" onerror="this.outerHTML='<div class=noimg><b>▣</b>Sin imagen</div>'">`}
+const buscar=k=>datos.find(p=>key(p)===k);
+
+function abrir(k){const p=buscar(k);if(!p)return;
+  $("modal").innerHTML=`<button class="x" onclick="cerrar()">✕</button><div class="mi">${imagen(p)}${estado(p)}</div>
+  <div class="mb"><h3>${esc(p.codigo)}</h3><div class="meta"><span>${esc(p.marca)}</span>${p.categoria?`<span>${esc(p.categoria)}</span>`:""}${multi?`<span>📍 ${esc(p.ubicacion)}</span>`:""}</div><p>${esc(p.descripcion)}</p></div>
+  <div class="mf"><span class="pr">${fmt(p.precio)}</span>${agot(p)?'<button class="btn" disabled>Agotado</button>':`<button class="btn main" onclick="agregar('${esc(k)}');cerrar()">Agregar al pedido</button>`}</div>`;
+  $("ov").classList.add("show")}
+function cerrar(){$("ov").classList.remove("show")}
+
+function guardar(){try{localStorage.setItem("btr_cart",JSON.stringify(cart))}catch(e){}pintar()}
+function agregar(k){const p=buscar(k);if(!p)return;if(agot(p))return aviso("Producto agotado");if(p.stock!==null&&(cart[k]||0)>=p.stock)return aviso("Solo hay "+p.stock+" disponibles");cart[k]=(cart[k]||0)+1;guardar();aviso("Agregado al pedido")}
+function cambiar(k,d){const p=buscar(k);if(d>0&&p&&p.stock!==null&&(cart[k]||0)>=p.stock)return aviso("Solo hay "+p.stock+" disponibles");cart[k]=(cart[k]||0)+d;if(cart[k]<=0)delete cart[k];guardar()}
+function vaciar(){cart={};guardar()}
+function carrito(s){$("drawer").classList.toggle("show",s)}
+function pintar(){
+  Object.keys(cart).forEach(k=>{const p=buscar(k);if(!p)return;if(agot(p))delete cart[k];else if(p.stock!==null&&cart[k]>p.stock)cart[k]=p.stock});
+  const ks=Object.keys(cart).filter(k=>buscar(k));let t=0,n=0;
+  $("items").innerHTML=ks.length?ks.map(k=>{const p=buscar(k),q=cart[k];t+=p.precio*q;n+=q;
+   return `<div class="it"><div><b>${esc(p.codigo)}</b> · ${esc(p.marca)}<br><small>${esc(p.descripcion)}<br>${multi?"📍 "+esc(p.ubicacion)+" · ":""}${fmt(p.precio)}</small></div>
+   <div class="q"><button onclick="cambiar('${esc(k)}',-1)">−</button><b>${q}</b><button onclick="cambiar('${esc(k)}',1)">+</button></div></div>`}).join("")
+   :'<p class="empty">Tu pedido está vacío</p>';
+  $("total").textContent=fmt(t);$("nq").textContent=n}
+function enviar(){
+  const ks=Object.keys(cart).filter(k=>buscar(k));if(!ks.length)return aviso("Agrega productos primero");
+  let t=0,m="*Pedido BTR MOTOS*%0A%0A";const L=[];
+  ks.forEach(k=>{const p=buscar(k),q=cart[k];t+=p.precio*q;
+   L.push(`• ${p.codigo} | ${p.marca}${multi?" | "+p.ubicacion:""}\n  ${p.descripcion}\n  ${q} x ${fmt(p.precio)} = ${fmt(p.precio*q)}`)});
+  const txt="*Pedido BTR MOTOS*\n\n"+L.join("\n\n")+"\n\n*Total: "+fmt(t)+"*";
+  window.open("https://wa.me/"+String(CONFIG.whatsapp).replace(/\D/g,"")+"?text="+encodeURIComponent(txt),"_blank")}
+
+function banners(){
+  $("trk").innerHTML=CONFIG.banners.map(b=>b.imagen?`<div class="sl img"><img src="${esc(b.imagen)}" alt=""></div>`:`<div class="sl"><h2>${esc(b.titulo)}</h2><p>${esc(b.texto||"")}</p></div>`).join("");
+  $("dots").innerHTML=CONFIG.banners.map((_,i)=>`<i onclick="ir(${i})"></i>`).join("");
+  if(!CONFIG.banners.length)$("car").style.display="none";
+  ir(0);clearInterval(timer);timer=setInterval(()=>mover(1),4500)}
+function ir(i){const n=CONFIG.banners.length;slide=(i+n)%n;$("trk").style.transform=`translateX(-${slide*100}%)`;
+  [...$("dots").children].forEach((d,j)=>d.classList.toggle("on",j===slide))}
+function mover(d){ir(slide+d)}
+function aviso(t){const e=$("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1800)}
+
+banners();cargar();extras();pintar();
+</script>
+</body>
+</html>
